@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indio Jobs</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/9/98/FinderBigSur.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <header id="navbar-header">
+        <nav id="navbar">
+            <div id="left-sidebar">
+                <ul>
+                    <li><a href="/home">Indio Jobs</a></li>
+                    <li><a href="/home">Home</a></li>
+                    <li class="light-color"><a href="/jobs">Jobs</a></li>
+                    <% if (user) { %>
+                        <li id="dropdown" class="light-color"><a href="#"><%= user %> <i class="fa-solid fa-caret-down"></i></a>
+                            <div id="dropdown-cnt" class="dropdown-content">
+                               <div><a id="logout" href="/logout">Logout</a></div>
+                               <div><a id="new-job" href="/post-job">Post New Job</a></div> 
+                            </div>
+                        </li>
+                    <% } else { %>
+                        <li id="dropdown" class="light-color"><a href="#">Recruiter <i class="fa-solid fa-caret-down"></i></a>
+                            <div id="dropdown-cnt" class="dropdown-content">
+                               <div><a id="login" href="/login">Login</a></div>
+                               <div><a id="new-job" href="/post-job">Post New Job</a></div> 
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+            <div id="search">
+                <!-- <div id="search-box">
+                    <ul>
+                        <li><input id="search-text" type="text" name="search-text" placeholder="Search"></li>
+                        <li><button type="submit">Search</button></li>
+                    </ul>
+                </div> -->
+                <div id="search-box">
+                    <form action="/jobs" method="post">
+                        <input id="search-text" type="text" name="search" autocomplete="off" placeholder="Search" >
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+                <!-- <% if(jobs) { %>
+                    <div id="search-job-list">
+                        <ul>
+                            <% jobs.forEach(job=>{ %>
+                                <li><a href="/job/<%= job.id %>"><%= job.companyName %></a></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                <% } %> -->
+            </div>
+        </nav>
+    </header>
+    
+    <%- body %>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="/js-code/script.js"></script>
+</body>
+</html>

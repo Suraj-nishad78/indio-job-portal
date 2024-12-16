@@ -1,0 +1,28 @@
+
+<header id="applicants-header">
+    <div id="applicants-container">
+        <div id="applicants-heading">
+            <ul>
+                <li>#</li>
+                <li>Name</li>
+                <li>Email</li>
+                <li>Contact</li>
+                <li>Resume</li>
+            </ul>
+        </div>
+        <div id="applicants">
+            <!--------------->
+            <% apps.forEach(app=>{ %>
+                <div class="applicants-details">
+                    <ul>
+                        <li><%= count++ %></li>
+                        <li><%= app.name %></li>
+                        <li><%= app.email %></li>
+                        <li><%= app.number %></li>
+                        <li><a href="<%= app.resume %>" target="_blank">View</a></li>
+                    </ul>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</header>
