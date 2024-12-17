@@ -40,6 +40,7 @@ import {
 
 import { upload } from "./src/middleware/multer.js"
 import {sendApplicantMail} from "./src/middleware/nodeMailer.js"
+import{lastLoggedInAt} from "./src/middleware/cookies.js"
 
 /*----import function are here-----*/
 
@@ -52,6 +53,7 @@ app.set('layouts', 'layout')
 
 /*-------Middleware---------*/
 
+app.use(cookieParser())
 app.use(express.static(join(process.cwd(), 'public'))); 
 app.use(expressEjsLayout);
 app.use(express.json());
@@ -84,9 +86,9 @@ app.get("/", jobsHome)
 app.get("/home", jobsHome)
 
 app.get("/login", loginPage)
-app.post("/login", loginRecruiter)//
+app.post("/login", lastLoggedInAt, loginRecruiter)//
 app.get("/logout", logoutRecruiter)//
-app.post("/recruiter", createRecruiter)
+app.post("/recruiter", lastLoggedInAt, createRecruiter)
 
 app.get("/jobs", jobListingPage)
 app.post('/jobs', findJob)

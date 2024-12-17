@@ -396,9 +396,29 @@ main{
 }
 /*---------Jobs-page---------*/
 #jobs-page{
+
 }
+#last-login{
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    /* justify-content: space-around; */
+    justify-content: center;
+    position: relative;
+}
+
+#last-login span{
+    position: relative;
+    left: 30px;
+    top: -10px;
+}
+#last-login span:hover{
+    cursor: pointer;
+}
+
+
 #jobs-list{
-    margin: 30px ;
+    margin: 30px 30px ;
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;

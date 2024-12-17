@@ -189,6 +189,18 @@ async function deletedjob(jobId) {
  }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    let lastLogin = document.getElementById('last-login');
+    let removeLastLogin = document.getElementById('remove-last-login');
+
+    if (lastLogin && removeLastLogin) {
+        removeLastLogin.addEventListener('click', () => {
+            lastLogin.classList.toggle('hidden');
+        });
+    }
+});
+
+
 
 
 

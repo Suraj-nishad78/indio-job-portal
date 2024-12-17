@@ -6,6 +6,12 @@
 
 
 <header id="jobs-page">
+    <div id="last-login">
+        <% if(lastLoggedIn) { %>
+        <h1>You had last logged in at <%= lastLoggedIn%></h1>
+        <span id="remove-last-login">X</span>
+        <% }%>
+    </div>
     <div id="jobs-list">
         <% jobs.forEach(job =>{ %>
             <div class="jobs-details">

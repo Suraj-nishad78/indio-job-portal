@@ -81,9 +81,10 @@ const logoutRecruiter = (req, res)=>{
 
 
 const jobListingPage = (req, res)=>{
+    let lastLoggedIn = req.session.lastLoggedIn || '';
     let user = req.session.user || '';
     const jobs = jobsArrayFunc()
-    res.render("jobs", {user, jobs})
+    res.render("jobs", {user, jobs, lastLoggedIn})
 }
 
 
