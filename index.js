@@ -91,13 +91,12 @@ app.get("/logout", logoutRecruiter)//
 app.post("/recruiter", lastLoggedInAt, createRecruiter)
 
 app.get("/jobs", jobListingPage)
-app.post('/jobs', findJob)
 app.get("/job/:id", jobDetails)
 
 app.get("/post-job", newJobPage)
 app.get("/update-job-page/:id", updateJobPage)
 app.post("/post-job", createNewJob)
-// app.post('/job-search', findJob)
+app.post('/job-search', findJob)
 app.patch("/update-job/:id", updateJob)
 app.delete("/job/:id", deleteJob)
 

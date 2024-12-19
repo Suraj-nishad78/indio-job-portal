@@ -2,16 +2,15 @@
     body{
         background-color: #181743;
     }
+
+    .hide{
+        /* background-color: red; */
+        visibility: hidden;
+    }
 </style>
 
 
 <header id="jobs-page">
-    <div id="last-login">
-        <% if(lastLoggedIn) { %>
-        <h1>You had last logged in at <%= lastLoggedIn%></h1>
-        <span id="remove-last-login">X</span>
-        <% }%>
-    </div>
     <div id="jobs-list">
         <% jobs.forEach(job =>{ %>
             <div class="jobs-details">
@@ -45,3 +44,24 @@
         <% }) %>
     </div>
 </header>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const lastLoggedIn = '<%= lastLoggedIn %>';
+    const alertShownKey = 'lastLoginAlertShown';
+
+    if (lastLoggedIn) {
+        // Check if the current `lastLoggedIn` value has already been alerted
+        if (localStorage.getItem(alertShownKey) !== lastLoggedIn) {
+            alert(`You had last logged in at ${lastLoggedIn}`);
+            localStorage.setItem(alertShownKey, lastLoggedIn); // Store the current `lastLoggedIn` value
+        }
+    } else {
+        // If `lastLoggedIn` is empty or undefined, clear the stored key
+        localStorage.removeItem(alertShownKey);
+    }
+});
+
+
+</script>

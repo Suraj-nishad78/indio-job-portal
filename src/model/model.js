@@ -227,7 +227,7 @@ const deletejobWithId = (jobId) => {
 
 const findJobText = (search) =>{
     let searched = search.toLowerCase()
-    const job = jobsArray.find(job=>job.companyName.toLowerCase().includes(search))
+    const job = jobsArray.filter(job=>job.companyName.toLowerCase().includes(searched));
     return job;
 }
 

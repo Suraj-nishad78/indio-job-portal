@@ -1,5 +1,4 @@
 
-
 /*-------Navbar Dropdown ------*/
 
 
@@ -185,20 +184,19 @@ async function deletedjob(jobId) {
  })
 
  function newJobPosted(){
-    alert('Job posted Successfully')
+    const company = document.getElementById('company').value;
+    const jobLocation = document.getElementById('post-job-location').value; 
+    const jobSalary = document.getElementById('post-job-salary').value;
+    const positions = document.getElementById('total-positions').value;
+    if(company && jobLocation && jobSalary && positions){
+        alert('Job posted Successfully')
+    } else {
+        alert('Please enter the correct details')
+    }
  }
 
+ 
 
-document.addEventListener('DOMContentLoaded', () => {
-    let lastLogin = document.getElementById('last-login');
-    let removeLastLogin = document.getElementById('remove-last-login');
-
-    if (lastLogin && removeLastLogin) {
-        removeLastLogin.addEventListener('click', () => {
-            lastLogin.classList.toggle('hidden');
-        });
-    }
-});
 
 
 

@@ -95,12 +95,11 @@ const jobDetails = (req, res)=>{
 }
 
 const newJobPage = (req, res)=>{
-    if(req.session.user){
-        let user = req.session.user;
+    let user = req.session.user || ''
+    if(user){
         let jobNumber = '';
         res.render("post-job", {user, jobNumber})
     }else{
-        const user = ''
         const warning = 'only recruiter is allowed to access this page, login as recruiter to continue'    
         res.render("404page", {user, warning})
     }
@@ -140,8 +139,15 @@ const findJob = (req, res) =>{
     const searchText = search.trim();
 
     const jobs = findJobText(searchText)
+    let lastLoggedIn = req.session.lastLoggedIn || '';
     let user = req.session.user || '';
-    res.redirect('/jobs')
+
+    if(jobs && jobs.length){
+        res.render("jobs", {user, jobs, lastLoggedIn})
+    }else{
+        const warning = `Job name '${searchText}' doesn't exist`
+        res.render("404page", {user, warning})
+    }
 
 }
 
