@@ -123,29 +123,6 @@ background-color: var(--light-bg-color);
     color: black;
     cursor: pointer;
 }
-#search-job-list{
-    position: absolute;
-    left: 8px;
-    top:2.5em;
-}
-#search-job-list li{
-    list-style: none;
-}
-#search-job-list li a{
-    /* border: 1px solid black; */
-    text-decoration: none;
-    width: max-content;
-    padding: 5px 20px;
-    list-style: none;
-    font-size: 1.3em;
-    border-radius: 5px;
-    background-color: #007bff;
-    color:  white;
-}
-#search-job-list li a:hover{
-    cursor: pointer;
-    background-color: #08396d;
-}
 
 /*---------- main-content ---------*/
 main{
