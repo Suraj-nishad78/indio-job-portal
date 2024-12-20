@@ -36,14 +36,20 @@ background-color: var(--light-bg-color);
     margin: 0px 8px;
     cursor: pointer;
 }
-#left-sidebar li a{
+#left-sidebar li a, #left-sidebar li button{
     text-decoration: none;
     color: var(--text-color);
 }
-#left-sidebar .light-color a{
+
+#left-sidebar li button{
+    background-color: transparent;
+    border: none;
+    font-size: .95em;
+}
+#left-sidebar .light-color a, #left-sidebar .light-color button{
     color: grey;
 }
-#left-sidebar a:hover{
+#left-sidebar a:hover, #left-sidebar button:hover{
     color:var(--text-color);
     cursor: pointer;
 }
@@ -56,9 +62,10 @@ background-color: var(--light-bg-color);
     margin-left: 5px;
     font-size: .8em;
 }
-#dropdown{
+#dropdown-recruiter, #dropdown-app{
     position: relative;
 }
+
 .dropdown-content{
     position: absolute;
     /* background-color: white; */
@@ -83,7 +90,7 @@ background-color: var(--light-bg-color);
     background-color:var(--light-bg-color);
     color: var(--text-color);
 }
-#dropdown a:hover{
+#dropdown-recruiter a:hover, #dropdown-app a:hover{
     cursor: pointer;
 }
 .visible{
@@ -183,7 +190,7 @@ main{
 }
 #buttons-main li a, #buttons-main li button{
     padding: 10px 20px;
-    font-size: 1.4em;
+    font-size: 1.2em;
     border-radius: 5px;
     text-decoration: none;
     color: var(--text-color);
@@ -197,7 +204,7 @@ main{
 }
 
 /*----------- Sign-Up-Form -----------*/
-#signup-form, #login-form, #log-in-page {
+#signup-form, #login-form, #log-in-page, #signup-form-app, #login-form-app {
     width: 28em;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: white;
@@ -681,10 +688,10 @@ main{
     color: black;
     cursor: pointer;
 }
+
 #apply-form-input{
     box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
     margin: 50px 50px;
-    /* border: 1px solid black; */
     padding: 10px;
     position: relative;
     border-radius: 5px;
@@ -696,7 +703,6 @@ main{
 }
 #apply-form-input label{
     border: 1px solid rgba(0, 0, 0, 0.4);
-    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
     padding: 7px 15px;
     background-color: whitesmoke;
     border-bottom-left-radius: 5px;
@@ -706,8 +712,6 @@ main{
 }
 #apply-form-input input{
     margin-bottom: 15px;
-    /* width: 19em; */
-    /* width: max-content; */
     height: 15px;
     padding: 9.5px 15px;
     position: relative;
@@ -735,8 +739,8 @@ main{
 #apply-form-input #apply-resume{
     position: relative;
     top: 5px;
-    /* padding: px; */
 }
+
 #Close-changes-form{
     margin: 20px 10px 0px;
     float: right;
@@ -980,9 +984,7 @@ main{
 .applicants-details li a:hover{
     background-color: rgb(4, 68, 94);
     cursor: pointer;
-}
-
-
+}  
  
 
 

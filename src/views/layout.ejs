@@ -17,21 +17,39 @@
                     <li><a href="/home">Indio Jobs</a></li>
                     <li><a href="/home">Home</a></li>
                     <li class="light-color"><a href="/jobs">Jobs</a></li>
-                    <% if (user) { %>
-                        <li id="dropdown" class="light-color"><a href="#"><%= user %> <i class="fa-solid fa-caret-down"></i></a>
-                            <div id="dropdown-cnt" class="dropdown-content">
-                               <div><a id="logout" href="/logout">Logout</a></div>
-                               <div><a id="new-job" href="/post-job">Post New Job</a></div> 
+                    
+                    <li id="dropdown-recruiter" class="light-color">
+                        <% if (user) { %>
+                            <a href="#"><%= user %> <i class="fa-solid fa-caret-down"></i></a>
+                            <div id="dropdown-cnt-recruiter" class="dropdown-content">
+                                <div><a id="logout" href="/logout">Logout</a></div>
+                                <div><a id="new-job" href="/post-job">Post New Job</a></div>
                             </div>
-                        </li>
-                    <% } else { %>
-                        <li id="dropdown" class="light-color"><a href="#">Recruiter <i class="fa-solid fa-caret-down"></i></a>
-                            <div id="dropdown-cnt" class="dropdown-content">
-                               <div><a id="login" href="/login">Login</a></div>
-                               <div><a id="new-job" href="/post-job">Post New Job</a></div> 
+                        <% } else { %>
+                            <button id="recruiter-btn" <%= app ? 'disabled' : '' %>>Recruiter <i class="fa-solid fa-caret-down"></i></button>
+                            <div id="dropdown-cnt-recruiter" class="dropdown-content">
+                                <div><a id="login" href="/login">Login</a></div>
+                                <div><a id="new-job" href="/post-job">Post New Job</a></div>
                             </div>
-                        </li>
-                    <% } %>
+                        <% } %>
+                    </li>
+                    
+                    <li id="dropdown-app" class="light-color">
+                        <% if (app.name) { %>
+                            <a href="#"><%= app.name %> <i class="fa-solid fa-caret-down"></i></a>
+                            <div id="dropdown-cnt-app" class="dropdown-content">
+                                <div><a id="logout" href="/logout/applicants">Logout</a></div>
+                                <div><a id="applied-jobs" href="#">Applied Jobs</a></div>
+                            </div>
+                        <% } else { %>
+                            <button id="applicant-btn" <%= user ? 'disabled' : '' %>>Applicants <i class="fa-solid fa-caret-down"></i></button>
+                            <div id="dropdown-cnt-app" class="dropdown-content">
+                                <div><a id="login-app" href="/login/applicants">Login</a></div>
+                                <div><a id="applied-jobs" href="#">Applied Jobs</a></div>
+                            </div>
+                        <% } %>
+                    </li>
+                    
                 </ul>
             </div>
             <div id="search">

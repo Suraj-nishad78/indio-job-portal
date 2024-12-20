@@ -1,18 +1,31 @@
 
-/*-------Navbar Dropdown ------*/
+/*-------Recruiter Dropdown ------*/
 
 
-const dropdown = document.getElementById('dropdown')
-const dropdownContent = document.getElementById('dropdown-cnt')
+const dropdown = document.getElementById('dropdown-recruiter')
+const dropdownContent = document.getElementById('dropdown-cnt-recruiter')
 
 if(dropdown && dropdownContent){
     dropdown.addEventListener('click', ()=>{
         dropdownContent.classList.toggle('visible')
     })
+    
+}
+
+/*-------Applicant Dropdown ------*/
+
+const dropdownApp = document.getElementById('dropdown-app')
+const dropdownContentApp = document.getElementById('dropdown-cnt-app')
+
+if(dropdownApp && dropdownContentApp){
+    dropdownApp.addEventListener('click', ()=>{
+        dropdownContentApp.classList.toggle('visible')
+    })
 }
 
 
-/*------------Signup Form--------*/
+
+/*------------Signup Form Recruiter--------*/
 
 const signupFormHide = document.getElementById('signup-hide')
 const signupFormVisible = document.getElementById('signup-visible')
@@ -30,7 +43,8 @@ if(signupFormVisible && signupFormHide){
 
 
 
-/*------------Login Form--------*/
+
+/*------------Login Form Recruiter--------*/
 
 
 const signupToLogin = document.getElementById('signup-login-page')
@@ -53,7 +67,7 @@ if(signupToLogin && loginHides){
 
 
 
-/*------------Login to Signup Form--------*/
+/*------------Login to Signup Form  Recruiter--------*/
 
 const loginSignupPage = document.getElementById('login-signup-page')
 
@@ -64,6 +78,54 @@ if(loginSignupPage){
     })
 }
 
+/*------------Login to Signup Form Applicants--------*/
+
+const loginSignupPageApp = document.getElementById('login-signup-page-app')
+
+if(loginSignupPageApp){
+    loginSignupPageApp.addEventListener('click', ()=>{
+        signupFormApp.classList.toggle('hidden')
+        loginFormApp.classList.toggle('hidden')
+    })
+}
+
+
+/*------------Signup Form Applicant--------*/
+
+const signupFormHideApp = document.getElementById('signup-hide-app')
+const signupFormVisibleApp = document.getElementById('signup-app')
+const signupFormApp = document.getElementById('signup-form-app')
+
+if(signupFormVisibleApp && signupFormHideApp){
+    signupFormVisibleApp.addEventListener('click', ()=>{
+        signupFormApp.classList.toggle('hidden')
+    })
+    
+    signupFormHideApp.addEventListener('click',()=>{
+        signupFormApp.classList.toggle('hidden')
+    })
+}
+
+/*------------Login Form Applicants--------*/
+
+
+const signupToLoginApp = document.getElementById('signup-login-page-app')
+const loginFormApp = document.getElementById('login-form-app')
+const loginHidesApp = document.querySelectorAll('.login-hide-app')
+
+if(signupToLoginApp && loginHidesApp){
+    signupToLoginApp.addEventListener('click', ()=>{
+        signupFormApp.classList.toggle('hidden')
+        loginFormApp.classList.toggle('hidden')
+        
+    })
+    
+    loginHidesApp.forEach(loginHide=>{
+        loginHide.addEventListener('click', ()=>{
+            loginFormApp.classList.toggle('hidden')
+        })
+    })
+}
 
 /*-----------Job-Seeker Form------------*/
 
@@ -142,7 +204,7 @@ function data(jobJSON) {
 
     try{
         const response = await fetch(`/update-job/${id}`, {
-            method:'PATCH',
+            method:'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },

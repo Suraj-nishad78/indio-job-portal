@@ -13,6 +13,8 @@ import {
 
     findJobText,
 
+    addApplicantsInArray,
+    checkApplicantsExist,
     createApplicants,
     applicantsFormData
 
@@ -43,7 +45,8 @@ const jobsArrayRoute = (req, res) =>{
 
 const jobsHome = (req, res) =>{
     let user = req.session.user || '';
-    res.render('home',{user})
+    let app = req.session.App || '';
+    res.render('home',{user, app})
 }
 
 
@@ -55,7 +58,8 @@ const createRecruiter = (req, res) =>{
 
 const loginPage = (req, res)=>{
     let user = req.session.user || '';
-    res.render("login", {user})
+    let app = req.session.App || '';
+    res.render("login", {user, app})
 }
 
 const loginRecruiter = (req, res) =>{
@@ -83,25 +87,28 @@ const logoutRecruiter = (req, res)=>{
 const jobListingPage = (req, res)=>{
     let lastLoggedIn = req.session.lastLoggedIn || '';
     let user = req.session.user || '';
+    let app = req.session.App || '';
     const jobs = jobsArrayFunc()
-    res.render("jobs", {user, jobs, lastLoggedIn})
+    res.render("jobs", {user, jobs, app, lastLoggedIn})
 }
 
 
 const jobDetails = (req, res)=>{
     const job = getJobFromId(req.params)
     let user = req.session.user || '';
-    res.render("job-Details", {user, job})
+    let app = req.session.App || '';
+    res.render("job-Details", {user, app, job})
 }
 
 const newJobPage = (req, res)=>{
     let user = req.session.user || ''
+    let app = req.session.App || '';
     if(user){
         let jobNumber = '';
-        res.render("post-job", {user, jobNumber})
+        res.render("post-job", {user, app, jobNumber})
     }else{
         const warning = 'only recruiter is allowed to access this page, login as recruiter to continue'    
-        res.render("404page", {user, warning})
+        res.render("404page", {user,app, warning})
     }
 }
 
@@ -113,8 +120,9 @@ const createNewJob = (req, res) =>{
 const updateJobPage = (req, res)=>{
     const {id} = req.params;
     let user = req.session.user;
+    let app = req.session.App || '';
     let jobNumber = id;
-    res.render("post-job", {user, jobNumber})
+    res.render("post-job", {user, app, jobNumber})
 }
 const updateJob = (req, res)=>{
     const {id} = req.params;
@@ -141,24 +149,62 @@ const findJob = (req, res) =>{
     const jobs = findJobText(searchText)
     let lastLoggedIn = req.session.lastLoggedIn || '';
     let user = req.session.user || '';
+    let app = req.session.App || '';
 
     if(jobs && jobs.length){
-        res.render("jobs", {user, jobs, lastLoggedIn})
+        res.render("jobs", {user, app, jobs, lastLoggedIn})
     }else{
         const warning = `Job name '${searchText}' doesn't exist`
-        res.render("404page", {user, warning})
+        res.render("404page", {user, app, warning})
     }
 
 }
 
+const loginApplicants = (req, res)=>{
+    let user = req.session.App || '';
+    let app = req.session.App || '';
+    res.render("loginApp", {user, app})
+}
+
+const applicantsAccount = (req, res)=>{
+    const {name, email, password} = req.body;
+    const app = {name, email, password}
+    const applicants = addApplicantsInArray(app)
+    res.redirect('/login/applicants')
+}
+
+const getApplicantAccount = (req, res)=>{
+    const {email, password} = req.body;
+    const app = {email, password}
+    const applicant =  checkApplicantsExist(app)
+    if(applicant && applicant.length){
+        const appName = applicant[0].name;
+        // req.session.App = appName;
+        req.session.App = applicant[0];
+        res.redirect("/home")
+    }else{
+        res.redirect("/user-not-found")
+    }
+}
+
+const logoutApplicant = (req, res)=>{
+    req.session.destroy((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.redirect('/login/applicants');
+        }
+      });
+}
 
 const jobApplicants = (req, res)=>{
     let user = req.session.user || '';
+    let app = req.session.App || '';
     if(user){
-        res.render("applicants", {user})
+        res.render("applicants", {user, app})
     }else{
         const warning = 'only recruiter is allowed to access this page, login as recruiter to continue'    
-        res.render("404page", {user, warning})
+        res.render("404page", {user, app, warning})
     }
 }
 
@@ -173,33 +219,36 @@ const jobApplyApplicants = (req, res) =>{
 
 const applicantsForm = (req, res) =>{
     let user = req.session.user || '';
+    let app = req.session.App || '';
     const {id} = req.params
     const jobs = jobsArrayFunc().filter(job=>job.id == id)
     const createrJob = jobs[0].jobCreater;
     if(user == createrJob){
-        const apps = applicantsFormData(req.params);
+        const applicants = applicantsFormData(req.params);
         let count = 1;
-        res.render("applicants", {user, apps, count})
+        res.render("applicants", {user,app, applicants, count})
     }else if(user){
         const warning = 'Only recruiter who create this job can access this page'
-        res.render("404page", {user, warning})
+        res.render("404page", {user, app, warning})
     }
     else{
         const warning = 'only recruiter is allowed to access this page, login as recruiter to continue'
-        res.render("404page", {user, warning})
+        res.render("404page", {user, app, warning})
     }
 }
 
 const userNotFound = (req, res)=>{
     let user = req.session.user || '';
+    let app = req.session.App || '';
     const warning = 'user not found pls register'
-    res.render("404page", {user, warning})
+    res.render("404page", {user, app, warning})
 }
 
 const page404 = (req, res)=>{
     let user = req.session.user || '';
+    let app = req.session.App || '';
     const warning = '404: Page not Found'
-    res.render("404page", {user, warning})
+    res.render("404page", {user, app, warning})
 }
 
 export {
@@ -211,13 +260,17 @@ export {
 
     jobListingPage,
     jobDetails,
+    jobApplicants,
     newJobPage,
     createNewJob,
     updateJobPage,
     updateJob,
     deleteJob,
 
-    jobApplicants,
+    applicantsAccount,
+    loginApplicants,
+    getApplicantAccount,
+    logoutApplicant,
     jobApplyApplicants,
     applicantsForm,
 

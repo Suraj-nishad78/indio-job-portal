@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lastLoggedIn) {
         // Check if the current `lastLoggedIn` value has already been alerted
         if (localStorage.getItem(alertShownKey) !== lastLoggedIn) {
-            alert(`You had last logged in at ${lastLoggedIn}`);
+            alert(`Welcome back! you had last logged in at ${lastLoggedIn}`);
             localStorage.setItem(alertShownKey, lastLoggedIn); // Store the current `lastLoggedIn` value
         }
     } else {

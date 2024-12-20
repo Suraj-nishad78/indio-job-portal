@@ -1,23 +1,24 @@
 
 /*---------- Recruiters Array---------*/
 let recruiterId = 2
-const recruiters = [{
+const recruiters = [
+    {
     id:1,
     name:"Suraj Nishad",
     email:"surajn838@gmail.com",
     password:'123'
-}]
+    }
+]
 
 
 /*----------Applicants Array---------*/
-let applicantsId = 1
-const applicants = []
-
-const aplication = [
+let applicantsId = 2
+let applicants = [
     {
         id:1,
-        appId:1,
-        jobId:1
+        name:"Vivek Soni",
+        email:"vivek123@gmail.com",
+        password:'321'
     }
 ]
 
@@ -231,6 +232,20 @@ const findJobText = (search) =>{
     return job;
 }
 
+const addApplicantsInArray = (app) =>{
+    const applicant = {id:applicantsId,...app}
+    applicantsId++
+    console.log(applicant)
+    return applicants.push(app)   
+}
+
+const checkApplicantsExist = (app) =>{
+    const { email, password} = app;
+    const findApp = applicants.filter(applicant=>applicant.email == email && applicant.password == password);
+    return findApp;
+}
+
+
 const createApplicants = (app, jobId) =>{
     const applicant = {id:applicantsId, ...app};
     const applicantsArray = applicantsFunc()
@@ -273,6 +288,8 @@ export {
 
     findJobText,
 
+    addApplicantsInArray,
+    checkApplicantsExist,
     createApplicants,
     applicantsFormData
 }

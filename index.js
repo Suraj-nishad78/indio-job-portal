@@ -22,13 +22,17 @@ import {
 
     jobListingPage,
     jobDetails,
+    jobApplicants,
     newJobPage,
     createNewJob,
     updateJobPage,
     updateJob,
     deleteJob,
 
-    jobApplicants,
+    applicantsAccount,
+    loginApplicants,
+    getApplicantAccount,
+    logoutApplicant,
     jobApplyApplicants,
     applicantsForm,
 
@@ -95,13 +99,17 @@ app.get("/job/:id", jobDetails)
 
 app.get("/post-job", newJobPage)
 app.get("/update-job-page/:id", updateJobPage)
+app.get('/jobs/applicants', jobApplicants)
 app.post("/post-job", createNewJob)
 app.post('/job-search', findJob)
-app.patch("/update-job/:id", updateJob)
+app.put("/update-job/:id", updateJob)
 app.delete("/job/:id", deleteJob)
 
 
-app.get('/jobs/applicants', jobApplicants)
+app.get('/login/applicants', loginApplicants)
+app.post('/Signup/applicants', applicantsAccount)
+app.post('/login/applicant', getApplicantAccount)
+app.get('/logout/applicants', logoutApplicant)
 app.get('/jobs/:id/applicants', applicantsForm)
 app.post('/jobs/:id/applicants', upload.single('resume'), sendApplicantMail, jobApplyApplicants)
 
