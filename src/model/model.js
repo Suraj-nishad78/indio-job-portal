@@ -18,7 +18,8 @@ let applicants = [
         id:1,
         name:"Vivek Soni",
         email:"vivek123@gmail.com",
-        password:'321'
+        password:'321',
+        appliedJob:[] 
     }
 ]
 
@@ -28,7 +29,7 @@ let jobId = 4
 let jobsArray = [
     {
         id: 1,
-        jobCreater:"Suraj Nishad",
+        jobCreater:"surajn838@gmail.com",
         jobCategory: "Tech",
         jobDesignation: "SDE",
         jobLocation: "Gurgaon HR IND Remote",
@@ -42,7 +43,7 @@ let jobsArray = [
     },
     {
         id: 2,
-        jobCreater:"Vivek Soni",
+        jobCreater:"vivek123@gmail.com",
         jobCategory: "Tech",
         jobDesignation: "DevOps",
         jobLocation: "Delhi IND",
@@ -56,7 +57,7 @@ let jobsArray = [
     },
     {
         id: 3,
-        jobCreater:"Suraj Nishad",
+        jobCreater:"surajn838@gmail.com",
         jobCategory: "Tech",
         jobDesignation: "Full-Stack Developer",
         jobLocation: "Chennai India",
@@ -223,6 +224,10 @@ const updateJobWithId = (jobId, jobData) =>{
 const deletejobWithId = (jobId) => {
     const id = Number(jobId);
     jobsArray = jobsArray.filter(job=>job.id !== id)
+    applicants = applicants.map(app=>({
+        ...app,
+        appliedJob:app.appliedJob.filter(job=>job.jobId !== id)
+    }))
     return jobsArray;
 }
 
@@ -245,20 +250,42 @@ const checkApplicantsExist = (app) =>{
     return findApp;
 }
 
+/*
 
-const createApplicants = (app, jobId) =>{
-    const applicant = {id:applicantsId, ...app};
-    const applicantsArray = applicantsFunc()
-    applicantsArray.push(applicant)
-    const appId = {appId:applicantsId};
+const createApplicants = (app, jobCreaterId, applicantsId) =>{
+    const appId = Number(applicantsId);
+    const jobId = jobCreaterId;
 
-    const{ id } = jobId;
     const allJobs = jobsArrayFunc();
-    const getJob = allJobs.filter(job =>job.id == id);
+    const getJob = allJobs.filter(job =>job.id == jobId);
     const job = getJob[0];
-    job.applicants.push(appId)
+    const companyName = job.companyName;
+    job.applicants.push({appId:appId})
 
-    applicantsId++;
+    applicants = applicants.map(applicant=>{
+        if(applicant.id === appId){
+            applicant.applyFor.push(companyName)
+            return {...applicant,...app}
+        }        
+        return applicant
+    })    
+}
+
+*/
+
+const createApplicants = (app, jobCreaterId, applicantsId) =>{
+    const appId = Number(applicantsId);
+    const jobId = Number(jobCreaterId);
+
+    const allJobs = jobsArrayFunc();
+    const getJob = allJobs.filter(job =>job.id == jobId);
+    const job = getJob[0];
+    const companyName = job.companyName;
+    job.applicants.push({appId:appId})
+
+    const appDetail = applicants.find(applicant=>applicant.id === appId)
+    appDetail.appliedJob.push({jobId, companyName,...app})
+
 }
 
 const applicantsFormData = (jobId) =>{
@@ -267,12 +294,22 @@ const applicantsFormData = (jobId) =>{
     const getJob = allJobs.filter(job =>job.id == id);
     const jobApplicants = getJob[0].applicants;
 
+    let applicantAppliedJob = []
     let app = jobApplicants.map(jobApp=>{
     const allApplicants = applicantsFunc()
-    // app = allApplicants.filter(app=>app.id==jobApp.appId)
-        return allApplicants.find(app=> app.id=== jobApp.appId)
+        // return allApplicants.find(app=> app.id === jobApp.appId)
+        allApplicants.find(app=> {
+            if(app.id === jobApp.appId){
+                app.appliedJob.filter(applied=>{
+                    if(applied.jobId == id){
+                        applicantAppliedJob.push(applied)
+                    }
+                })
+            }
+        })
+
     })
-    return app;
+    return applicantAppliedJob;
 }
 
 export {

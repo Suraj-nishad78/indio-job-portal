@@ -65,8 +65,9 @@ const loginPage = (req, res)=>{
 const loginRecruiter = (req, res) =>{
     const recruiter = findRecruiterModel(req.body)
     if(recruiter && recruiter.length){
-        const userName = recruiter[0].name;
-        req.session.user = userName;
+        // const userName = recruiter[0].name;
+        // req.session.user = userName;
+        req.session.user = recruiter[0];
         res.redirect("/jobs")
     }else{
         res.redirect("/user-not-found")
@@ -113,7 +114,8 @@ const newJobPage = (req, res)=>{
 }
 
 const createNewJob = (req, res) =>{
-    createJob(req.body, req.session.user)
+    const userEmail = req.session.user.email;
+    createJob(req.body, userEmail)
     res.redirect("/jobs")
 }
 
@@ -168,7 +170,7 @@ const loginApplicants = (req, res)=>{
 
 const applicantsAccount = (req, res)=>{
     const {name, email, password} = req.body;
-    const app = {name, email, password}
+    const app = {name, email, password, appliedJob:[]}
     const applicants = addApplicantsInArray(app)
     res.redirect('/login/applicants')
 }
@@ -178,8 +180,6 @@ const getApplicantAccount = (req, res)=>{
     const app = {email, password}
     const applicant =  checkApplicantsExist(app)
     if(applicant && applicant.length){
-        const appName = applicant[0].name;
-        // req.session.App = appName;
         req.session.App = applicant[0];
         res.redirect("/home")
     }else{
@@ -211,9 +211,25 @@ const jobApplicants = (req, res)=>{
 const jobApplyApplicants = (req, res) =>{
     const {name, email, number} = req.body;
     const { file } = req;
-    const applicant = { name, email, number, resume: `/uploads/${name}-${file.originalname}`};
-    createApplicants(applicant, req.params)
+    const{jobId, appId} = req.params;
+    const applicant = { name, email, number, resume: `/uploads/${email}-${file.originalname}`};
+    createApplicants(applicant, jobId, appId)
     res.redirect('/jobs')
+}
+
+const applicantsAppliedJob = (req, res)=>{
+    let user = req.session.user || '';
+    let app = req.session.App || '';
+    const {appId} = req.params;
+    const applicantData = applicantsFunc().filter( app => app.id == appId)
+    const applicants = applicantData[0].appliedJob;
+    if(!app){
+        const warning = 'Only applicants is allowed to access this page, login as applicant to continue'
+        res.render("404page", {user, app, warning})
+        return;
+    }
+    let count = 1;
+    res.render("applicants", {user,app , applicants, count})
 }
 
 
@@ -223,16 +239,22 @@ const applicantsForm = (req, res) =>{
     const {id} = req.params
     const jobs = jobsArrayFunc().filter(job=>job.id == id)
     const createrJob = jobs[0].jobCreater;
-    if(user == createrJob){
+    if(user.email == createrJob){
         const applicants = applicantsFormData(req.params);
-        let count = 1;
-        res.render("applicants", {user,app, applicants, count})
+    
+        if(applicants && applicants.length){
+            let count = 1;
+            res.render("applicants", {user,app , applicants, count})
+            return
+        }
+        const warning = 'No body apply for this job'
+        res.render("404page", {user, app, warning})
     }else if(user){
         const warning = 'Only recruiter who create this job can access this page'
         res.render("404page", {user, app, warning})
     }
     else{
-        const warning = 'only recruiter is allowed to access this page, login as recruiter to continue'
+        const warning = 'only recruiters is allowed to access this page, login as recruiter to continue'
         res.render("404page", {user, app, warning})
     }
 }
@@ -266,13 +288,14 @@ export {
     updateJobPage,
     updateJob,
     deleteJob,
+    applicantsForm,
 
     applicantsAccount,
     loginApplicants,
     getApplicantAccount,
+    applicantsAppliedJob,
     logoutApplicant,
     jobApplyApplicants,
-    applicantsForm,
 
     findJob,
 

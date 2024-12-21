@@ -20,7 +20,7 @@
                     
                     <li id="dropdown-recruiter" class="light-color">
                         <% if (user) { %>
-                            <a href="#"><%= user %> <i class="fa-solid fa-caret-down"></i></a>
+                            <a href="#"><%= user.name %> <i class="fa-solid fa-caret-down"></i></a>
                             <div id="dropdown-cnt-recruiter" class="dropdown-content">
                                 <div><a id="logout" href="/logout">Logout</a></div>
                                 <div><a id="new-job" href="/post-job">Post New Job</a></div>
@@ -35,17 +35,17 @@
                     </li>
                     
                     <li id="dropdown-app" class="light-color">
-                        <% if (app.name) { %>
+                        <% if (app) { %>
                             <a href="#"><%= app.name %> <i class="fa-solid fa-caret-down"></i></a>
                             <div id="dropdown-cnt-app" class="dropdown-content">
                                 <div><a id="logout" href="/logout/applicants">Logout</a></div>
-                                <div><a id="applied-jobs" href="#">Applied Jobs</a></div>
+                                <div><a id="applied-jobs" href='/appliedJobs/<%= app.id %>'>Applied Jobs</a></div>
                             </div>
                         <% } else { %>
                             <button id="applicant-btn" <%= user ? 'disabled' : '' %>>Applicants <i class="fa-solid fa-caret-down"></i></button>
                             <div id="dropdown-cnt-app" class="dropdown-content">
                                 <div><a id="login-app" href="/login/applicants">Login</a></div>
-                                <div><a id="applied-jobs" href="#">Applied Jobs</a></div>
+                                <div><a id="applied-jobs" href='/appliedJobs/<%= app.id %>'>Applied Jobs</a></div>
                             </div>
                         <% } %>
                     </li>

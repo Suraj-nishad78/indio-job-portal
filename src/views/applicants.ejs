@@ -8,18 +8,29 @@
                 <li>Email</li>
                 <li>Contact</li>
                 <li>Resume</li>
+                <% if(app) { %>
+                    <li>Applied For</li>
+                    <li>Update Btn</li>
+                <% } %>
             </ul>
         </div>
         <div id="applicants">
             <!--------------->
-            <% applicants.forEach(app=>{ %>
+            <% applicants.forEach(applicant=>{ %>
                 <div class="applicants-details">
                     <ul>
                         <li><%= count++ %></li>
-                        <li><%= app.name %></li>
-                        <li><%= app.email %></li>
-                        <li><%= app.number %></li>
-                        <li><a href="<%= app.resume %>" target="_blank">View</a></li>
+                        <li><%= applicant.name %></li>
+                        <li><%= applicant.email %></li>
+                        <li><%= applicant.number %></li>
+                        <li><a href="<%= applicant.resume %>" target="_blank">View</a></li>
+                        <% if(app) { %>
+                            <li><%= applicant.companyName %></li>
+                            <li>
+                                <a id="app-edit" href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a id="app-delete" href="#"><i class="fa-regular fa-trash-can"></i></a>
+                            </li>
+                        <% } %>
                     </ul>
                 </div>
             <% }) %>

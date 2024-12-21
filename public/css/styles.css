@@ -525,14 +525,14 @@ main{
     color: red;
 }
 /*--------*/
-  #job-edit, #job-delete {
+  #job-edit, #job-delete, #app-edit, #app-delete {
     position: relative;
     display: inline-block;
     cursor: pointer;
   }
 
   /* Text to appear on hover */
-  #job-edit::after {
+  #job-edit::after, #app-edit::after{
     content: "Edit";
     position: absolute;
     top: 25px; /* Position above the element */
@@ -550,13 +550,13 @@ main{
   }
 
   /* Show text on hover */
-  #job-edit:hover::after {
+  #job-edit:hover::after, #app-edit:hover::after {
     opacity: 1;
     visibility: visible;
   }
 
   /* Text to appear on hover */
-  #job-delete::after {
+  #job-delete::after, #app-delete::after {
     content: "Delete";
     position: absolute;
     top: 25px; /* Position above the element */
@@ -574,7 +574,7 @@ main{
   }
 
   /* Show text on hover */
-  #job-delete:hover::after {
+  #job-delete:hover::after, #app-delete:hover::after {
     opacity: 1;
     visibility: visible;
   }
@@ -916,75 +916,108 @@ main{
     color: rgb(226, 43, 43);
 }
 /*----------Applicants ---------*/
-#applicants-header{
-    color: black;
-    /* text-align: center; */
+
+#applicants-header {
+    color: #333;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
 }
-#applicants-container{
-    margin-top: 10px;
+
+#applicants-container {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1200px;
 }
-#applicants-heading{
-    width: 60em;
-    margin: 0 auto;
-}
-.applicants-details{
-    width: 60em;
-    margin: 10px auto 0px;
-    background-color: whitesmoke;
-    border-radius: 5px;
-}
-#applicants-heading li{
-    display: inline-block;
-    list-style: none;
-    font-size: 1.3em;
-    margin-left: 2em;
-    padding: 3px 0px ;
-}
-.applicants-details ul{
+
+#applicants-heading {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0073e6;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#applicants-heading ul {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    justify-content: space-between;
+}
+
+#applicants-heading li {
+    text-align: center;
+    flex: 1;
+}
+
+.applicants-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #fff;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.applicants-details:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.applicants-details ul {
+    display: flex;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    justify-content: space-between;
     align-items: center;
 }
-.applicants-details li{
-    /* display: inline-block; */
+
+.applicants-details li {
     list-style: none;
-    font-size: 1.3em;
-    margin-left: 2em;
-    padding: 10px 0px ;
+    text-align: center;
+    flex: 1;
+    padding: 5px;
 }
-.applicants-details li:nth-child(2){
-    /* margin-left: 1.5em; */
-    width: 6em;
-    text-align: left;
+
+.applicants-details li:nth-child(2) {
+    /* text-align: left; */
 }
-#applicants-heading li:nth-child(3), #applicants-heading li:nth-child(4){
-    margin-left: 10em;
-} 
-#applicants-heading li:nth-child(5){
-    margin-left: 7em;
-}
-.applicants-details li:nth-child(3){
-    margin-left: 3.5em;
-    width: 9em;
-}
-.applicants-details li:nth-child(4){
-    margin-left: 6em;
-    /* width: 10em; */
-}
-.applicants-details li:nth-child(5){
-    margin-left: 6.2em;
-}
-.applicants-details li a{
+
+.applicants-details li a {
     text-decoration: none;
-    /* border: 1px solid black; */
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: rgb(18, 149, 201);
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #0073e6;
+    transition: background-color 0.2s;
 }
-.applicants-details li a:hover{
-    background-color: rgb(4, 68, 94);
-    cursor: pointer;
-}  
+
+.applicants-details li a:hover {
+    background-color: #005bb5;
+}
+
+.applicants-details li a i {
+    margin-right: 5px;
+}
+
+#applicants-heading li:last-child,
+.applicants-details li:last-child {
+    flex: 1.5;
+}
+
+
+
  
 
 

@@ -6,8 +6,8 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // cb(null, resumeId++ +'-'+file.originalname)
-    const {name} = req.body;
-    cb(null, name+'-'+file.originalname)
+    const {email} = req.body;
+    cb(null, email+'-'+file.originalname)
   }
   
 })

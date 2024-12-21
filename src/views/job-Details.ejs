@@ -11,7 +11,7 @@
                     <li><%= job.companyName %></li>
                 </ul>
             </div>
-            <% if(user === String(job.jobCreater)) { %>
+            <% if(user.email === String(job.jobCreater)) { %>
                 <div id="job-update-delete-btn">
                     <span>Actively hiring  <i class="fa-solid fa-chart-line"></i></span>
                     <a id="job-edit" href="#" onclick="editJob('<%= JSON.stringify(job) %>')"><i class="fa-regular fa-pen-to-square"></i></a>
@@ -56,7 +56,7 @@
                 <% if(user){ %>
                     <button id="apply-form" disabled>Apply Now</button>
                 <% } else { %>
-                    <button id="apply-form">Apply Now</button>
+                    <button id="apply-form" onclick="applyForm('<%= app %>')">Apply Now</button>
                 <% } %>
             </div>
             <div id="job-posted-date">
@@ -72,7 +72,7 @@
     <hr>
     <div id="apply-form-input" >
         <p>apply in less than 1 minute</p>
-        <form action="/jobs/<%= job.id %>/applicants" method="post" enctype="multipart/form-data">
+        <form action="/jobs/<%= job.id %>/applicants/<%= app.id %>" method="post" enctype="multipart/form-data">
             <label for="apply-name">Name</label>
             <input id="apply-name" type="name" name="name" placeholder="Enter your name" required style="width: 13em;">
             <br>

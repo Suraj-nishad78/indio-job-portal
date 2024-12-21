@@ -133,17 +133,24 @@ let applyFormData = document.getElementById('apply-form-data');
 let ApplyForm = document.getElementById('apply-form');
 let closeApplyForm = document.querySelectorAll('.close-apply-form');
 
-if (ApplyForm && applyFormData) {
-    ApplyForm.addEventListener('click', () => {
-        applyFormData.classList.remove('hidden');
-    });
+// if (ApplyForm && applyFormData) {
+    function applyForm(app){
 
-    closeApplyForm.forEach(closeForm => {
-        closeForm.addEventListener('click', () => {
-            applyFormData.classList.add('hidden'); 
+        if(!app){
+            return alert('Please login as Applicant!')
+        }
+
+        ApplyForm.addEventListener('click', () => {
+            applyFormData.classList.remove('hidden');
         });
-    });
-}
+    
+        closeApplyForm.forEach(closeForm => {
+            closeForm.addEventListener('click', () => {
+                applyFormData.classList.add('hidden'); 
+            });
+        });
+    }
+// }
 
 /*--------Update ajob function----------*/
 

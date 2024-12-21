@@ -28,13 +28,14 @@ import {
     updateJobPage,
     updateJob,
     deleteJob,
+    applicantsForm,
 
     applicantsAccount,
     loginApplicants,
     getApplicantAccount,
+    applicantsAppliedJob,
     logoutApplicant,
     jobApplyApplicants,
-    applicantsForm,
 
     findJob,
 
@@ -104,14 +105,15 @@ app.post("/post-job", createNewJob)
 app.post('/job-search', findJob)
 app.put("/update-job/:id", updateJob)
 app.delete("/job/:id", deleteJob)
+app.get('/jobs/:id/applicants', applicantsForm)
 
 
 app.get('/login/applicants', loginApplicants)
 app.post('/Signup/applicants', applicantsAccount)
 app.post('/login/applicant', getApplicantAccount)
 app.get('/logout/applicants', logoutApplicant)
-app.get('/jobs/:id/applicants', applicantsForm)
-app.post('/jobs/:id/applicants', upload.single('resume'), sendApplicantMail, jobApplyApplicants)
+app.get('/appliedJobs/:appId', applicantsAppliedJob)
+app.post('/jobs/:jobId/applicants/:appId', upload.single('resume'), sendApplicantMail, jobApplyApplicants)
 
 app.get("/user-not-found", userNotFound)
 app.get('*', page404)
