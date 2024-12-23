@@ -16,6 +16,8 @@ import {
     addApplicantsInArray,
     checkApplicantsExist,
     createApplicants,
+    updateApplied,
+    deleteApplied,
     applicantsFormData
 
 } from "../model/model.js"
@@ -223,13 +225,26 @@ const applicantsAppliedJob = (req, res)=>{
     const {appId} = req.params;
     const applicantData = applicantsFunc().filter( app => app.id == appId)
     const applicants = applicantData[0].appliedJob;
-    if(!app){
-        const warning = 'Only applicants is allowed to access this page, login as applicant to continue'
-        res.render("404page", {user, app, warning})
-        return;
-    }
+  
     let count = 1;
-    res.render("applicants", {user,app , applicants, count})
+    let deleteIndex = 0;
+    let editIndex = 0;
+    res.render("applicants", {user,app, editIndex, deleteIndex, applicants, count})
+}
+
+const deleteAppliedJob = (req, res) =>{
+    const{jobId, appId, index} = req.params;
+    const deleteApp = deleteApplied(jobId, appId, index)
+    res.redirect(`/appliedJobs/${appId}`)
+}
+
+const updateAppliedJob = (req, res) =>{
+    const {name, email, number} = req.body;
+    const { file } = req;
+    const {appId, index} = req.params;
+    const updatedData = { name, email, number, resume: `/uploads/${email}-${file.originalname}`};
+    updateApplied(updatedData, Number(appId), Number(index))
+    res.redirect(`/appliedJobs/${appId}`)
 }
 
 
@@ -294,6 +309,8 @@ export {
     loginApplicants,
     getApplicantAccount,
     applicantsAppliedJob,
+    deleteAppliedJob,
+    updateAppliedJob,
     logoutApplicant,
     jobApplyApplicants,
 

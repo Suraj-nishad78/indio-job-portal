@@ -133,7 +133,6 @@ let applyFormData = document.getElementById('apply-form-data');
 let ApplyForm = document.getElementById('apply-form');
 let closeApplyForm = document.querySelectorAll('.close-apply-form');
 
-// if (ApplyForm && applyFormData) {
     function applyForm(app){
 
         if(!app){
@@ -150,7 +149,8 @@ let closeApplyForm = document.querySelectorAll('.close-apply-form');
             });
         });
     }
-// }
+
+
 
 /*--------Update ajob function----------*/
 
@@ -225,7 +225,6 @@ function data(jobJSON) {
 
 }
 
-
 /*--------Delete a job function----------*/
 async function deletedjob(jobId) {
     try {
@@ -236,6 +235,8 @@ async function deletedjob(jobId) {
 
     const response =  await fetch(`/job/${jobId}`,{ method: 'DELETE'})
     window.location.href = "/jobs";
+
+    alert('Job deleted Successfully !')
 
     } catch (error) {
       console.log("Error Occured",error)
@@ -263,6 +264,111 @@ async function deletedjob(jobId) {
         alert('Please enter the correct details')
     }
  }
+
+/*--------Delete a Applied job function----------*/
+
+async function errorAppliedBtn(appId){
+
+    try{
+
+        if(!appId){
+            alert('Access the page please login as Applicant')
+            return;
+        }
+
+        const response = await fetch(`/appliedJobs/${appId}`, {method: 'GET'})
+    }
+    catch(error){
+        console.log('Error', error)
+    }
+}
+
+
+async function deleteAppliedjob(appId, jobId, index) {
+    try {
+      const isConfirmed = confirm('Are you sure you want to delete this Applied job?')
+      if(!isConfirmed){
+        return
+      }
+
+    const response =  await fetch(`/jobs/${jobId}/applicants/${appId}/index/${index}`,{ method: 'DELETE'})
+
+    window.location.href = `/appliedJobs/${appId}`;
+    alert('Application deleted!')
+
+    } catch (error) {
+      console.log("Error Occured",error)
+    }
+  }
+
+
+  /*-----------Job Seeker update form------------*/
+
+    let updateFormData = document.getElementById('update-form-data');
+    let updateAppEdit = document.querySelectorAll('.app-edit');
+    let closeUpdateForm = document.querySelectorAll('.close-update-form');
+
+    if(updateFormData && closeUpdateForm){
+    
+        closeUpdateForm.forEach(closeForm => {
+            closeForm.addEventListener('click', () => {
+                updateFormData.classList.add('hidden'); 
+            });
+        });
+    }
+
+  let applicantId;
+  let appliedIndex; 
+
+  function editAppliedJob(app, aId, index){
+
+    const isConfirmed = confirm('Are you sure you want to update this Applied job?')
+    if(!isConfirmed){
+        return
+    }
+
+    applicantId = aId;
+    appliedIndex = index;
+
+    const appData = JSON.parse(app)
+
+
+    document.getElementById('update-name').value = appData.name;
+    document.getElementById('update-email').value = appData.email;
+    document.getElementById('update-number').value = Number(appData.number);
+
+    if (updateFormData) {
+        updateFormData.classList.remove('hidden');
+    }
+
+}
+
+const updateData = document.getElementById('update-data')
+
+if(updateData){
+
+    updateData.addEventListener('submit', async (event)=>{
+        event.preventDefault();
+    
+        const formData = new FormData(updateData)
+        let appId = applicantId;
+        let appIndex = appliedIndex;
+
+        try{
+            const response = await fetch(`/applicants/${appId}/index/${appIndex}`, {
+                method:'PUT',
+                body: formData
+            })
+            window.location.href = `/appliedJobs/${appId}`;
+
+            alert('Your details are updated successfully!')
+
+        }catch(err){
+            console.log('error', err)
+        }
+        
+    })
+}
 
  
 

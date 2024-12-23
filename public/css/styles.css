@@ -658,8 +658,8 @@ main{
     padding: 5px 10px;
     border-radius: 5px;
 }
-/*----------- Sign-Up-Form -----------*/
-#apply-form-data {
+/*----------- Sign-Up-Form & update applicant form-----------*/
+#apply-form-data, #update-form-data {
     width: 28em;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: white;
@@ -670,38 +670,39 @@ main{
     top: 5em;
     left: 28em;
 }
-#apply-form-title{
+#apply-form-title, #update-form-title{
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
 }
-#apply-form-title p{
+#apply-form-title p, #update-form-title p{
     font-size: 1.5em;
     color: green;
 }
-#apply-form-title a{
+#apply-form-title a, #update-form-title a{
     font-size: 1.3em;
     text-decoration: none;
     color: rgba(0, 0, 0, 0.6);
 }
-#apply-form-title a:hover{
+#apply-form-title a:hover, #update-form-title a:hover{
     color: black;
     cursor: pointer;
 }
 
-#apply-form-input{
+#apply-form-input, #update-form-input{
     box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
     margin: 50px 50px;
     padding: 10px;
     position: relative;
     border-radius: 5px;
 }
-#apply-form-input p{
+#apply-form-input p, #update-form-input p{
     font-size: 1.5em;
     text-align: center;
     margin-bottom: 10px;
 }
-#apply-form-input label{
+
+#apply-form-input label, #update-inputs label{
     border: 1px solid rgba(0, 0, 0, 0.4);
     padding: 7px 15px;
     background-color: whitesmoke;
@@ -710,7 +711,7 @@ main{
     font-size: 1.1em;
     color: rgba(0, 0, 0, 0.7);
 }
-#apply-form-input input{
+#apply-form-input input, #update-inputs input{
     margin-bottom: 15px;
     height: 15px;
     padding: 9.5px 15px;
@@ -722,7 +723,7 @@ main{
     border-bottom-right-radius: 5px;
 }
 
-#apply-form-input button{
+#apply-form-input button, #update-form-input button{
     width: 96%;
     padding: 6px 10px;
     font-size: 1.05em;
@@ -732,30 +733,53 @@ main{
     color: var(--text-color);
     margin: 15px 0px 20px 0px;
 }
-#apply-form-input button:hover{
+
+#apply-form-input button:hover, #update-form-input button:hover{
     background-color: green;
     cursor: pointer;
 }
-#apply-form-input #apply-resume{
+#apply-form-input #apply-resume, #update-form-input{
     position: relative;
     top: 5px;
 }
+#update-resume label{
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    padding: 3px 15px;
+    background-color: whitesmoke;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 1.1em;
+    color: rgba(0, 0, 0, 0.7);
+}
+#update-resume input{
+    /* margin-bottom: 15px;
+    height: 15px; */
+    /* padding: 4px 25px 5px 2px; */
+    margin-top: 3px;
+    position: relative;
+    top: -.8px;
+    left: -5px;
+    font-size: 1.15em;
+    /* border: 1px solid rgba(0, 0, 0, 0.3); */
+    /* border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; */
+}
 
-#Close-changes-form{
+#Close-changes-form, #Close-update-form{
     margin: 20px 10px 0px;
     float: right;
 }
-#Close-changes-form button{
+#Close-changes-form button, #Close-update-form button{
     padding: 6px 10px;
     font-size: 1em;
     border-radius: 5px;
     color: white;
 }
-#Close-changes-form button:first-child{
+#Close-changes-form button:first-child, #Close-update-form button:first-child{
     background-color: #db3444;
     color: white;
 }
-#Close-changes-form button:first-child:hover{
+#Close-changes-form button:first-child:hover, #Close-update-form button:first-child:hover{
     background-color: #aa1120;
     cursor: pointer;
     /* color: white; */

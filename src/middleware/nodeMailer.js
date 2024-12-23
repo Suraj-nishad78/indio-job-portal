@@ -26,4 +26,30 @@ const sendApplicantMail = async (req, res, next) =>{
 
 }
 
-export { sendApplicantMail}
+const updateApplicantMail = async (req, res, next) =>{
+    const {name, email} = req.body;
+    let transporter = nodeMailer.createTransport({
+        service:'gmail',
+        auth:{
+            user:'codingninjas2k16@gmail.com',
+            pass:'slwvvlczduktvhdj'
+        }
+    })
+
+    let mailOptions = {
+        from:'codingninjas2k16@gmail.com',
+        to:email,
+        subject:'Application Updated Successfully!',
+        text:`Dear ${name},\n\nYou are successfully updated your deatails. We have received your updated application.\n\nBest Regards,\nCompany Team.`,
+    }
+
+    try{
+        await transporter.sendMail(mailOptions);
+        next()
+    }catch(err){
+        console.log('Error occured while sending mail: ', err)
+    }
+
+}
+
+export { sendApplicantMail, updateApplicantMail}

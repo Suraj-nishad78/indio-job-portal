@@ -1,27 +1,11 @@
 
 /*---------- Recruiters Array---------*/
-let recruiterId = 2
-const recruiters = [
-    {
-    id:1,
-    name:"Suraj Nishad",
-    email:"surajn838@gmail.com",
-    password:'123'
-    }
-]
-
+let recruiterId = 1
+const recruiters = []
 
 /*----------Applicants Array---------*/
-let applicantsId = 2
-let applicants = [
-    {
-        id:1,
-        name:"Vivek Soni",
-        email:"vivek123@gmail.com",
-        password:'321',
-        appliedJob:[] 
-    }
-]
+let applicantsId = 1
+let applicants = []
 
 
 /*---------- Jobs Array---------*/
@@ -238,10 +222,10 @@ const findJobText = (search) =>{
 }
 
 const addApplicantsInArray = (app) =>{
-    const applicant = {id:applicantsId,...app}
+    const appId = applicantsId;
+    const applicant = {id:appId,...app}
     applicantsId++
-    console.log(applicant)
-    return applicants.push(app)   
+    return applicants.push(applicant)   
 }
 
 const checkApplicantsExist = (app) =>{
@@ -250,28 +234,6 @@ const checkApplicantsExist = (app) =>{
     return findApp;
 }
 
-/*
-
-const createApplicants = (app, jobCreaterId, applicantsId) =>{
-    const appId = Number(applicantsId);
-    const jobId = jobCreaterId;
-
-    const allJobs = jobsArrayFunc();
-    const getJob = allJobs.filter(job =>job.id == jobId);
-    const job = getJob[0];
-    const companyName = job.companyName;
-    job.applicants.push({appId:appId})
-
-    applicants = applicants.map(applicant=>{
-        if(applicant.id === appId){
-            applicant.applyFor.push(companyName)
-            return {...applicant,...app}
-        }        
-        return applicant
-    })    
-}
-
-*/
 
 const createApplicants = (app, jobCreaterId, applicantsId) =>{
     const appId = Number(applicantsId);
@@ -284,32 +246,64 @@ const createApplicants = (app, jobCreaterId, applicantsId) =>{
     job.applicants.push({appId:appId})
 
     const appDetail = applicants.find(applicant=>applicant.id === appId)
-    appDetail.appliedJob.push({jobId, companyName,...app})
+    appDetail.appliedJob.push({appId, jobId, companyName,...app})
 
 }
 
-const applicantsFormData = (jobId) =>{
-    const{ id } = jobId;
+const applicantsFormData = (jobId) => {
+    const { id } = jobId;
     const allJobs = jobsArrayFunc();
-    const getJob = allJobs.filter(job =>job.id == id);
-    const jobApplicants = getJob[0].applicants;
+    const jobApplicants = allJobs.find(job => job.id == id)?.applicants || [];
+    const allApplicants = applicantsFunc();
 
-    let applicantAppliedJob = []
-    let app = jobApplicants.map(jobApp=>{
-    const allApplicants = applicantsFunc()
-        // return allApplicants.find(app=> app.id === jobApp.appId)
-        allApplicants.find(app=> {
-            if(app.id === jobApp.appId){
-                app.appliedJob.filter(applied=>{
-                    if(applied.jobId == id){
-                        applicantAppliedJob.push(applied)
-                    }
-                })
-            }
-        })
+    return jobApplicants.flatMap(jobApp => 
+        allApplicants
+            .filter(app => app.id === jobApp.appId)
+            .flatMap(app => app.appliedJob.filter(applied => applied.jobId == id))
+    );
+};
 
-    })
-    return applicantAppliedJob;
+const deleteApplied = (jId, aId, index) =>{
+    const jobId = Number(jId);
+    const appId = Number(aId);
+    const appliedIndex = Number(index);
+
+    // Erase Applicant Id from job Array
+    let jobs = jobsArrayFunc();
+    const jobIndex = jobs.findIndex(job => job.id === jobId);
+    
+    if (jobIndex === -1) {
+        console.error("Job not found!");
+        return;
+    }
+    
+    jobs[jobIndex].applicants = jobs[jobIndex].applicants.filter(applicant => applicant.appId !== appId);    
+    
+    // Erase Applied job from Applicants Array
+    let applicantsArray = applicantsFunc();
+    const applicantIndex = applicantsArray.findIndex(applicant => applicant.id === appId);
+    
+    if (applicantIndex === -1) {
+        console.error('Applicant not found!');
+        return;
+    }
+    
+    const appliedJobs = applicantsArray[applicantIndex].appliedJob;
+    appliedJobs.splice(index, 1);
+}
+
+const updateApplied = (updateAppData, appId, index)=>{
+    
+    const applicants = applicantsFunc();
+    
+    const applicant = applicants.find(app=>app.id === appId)
+
+    const jobToUpdate = applicant.appliedJob[index]
+
+    applicant.appliedJob[index] = {
+        ...jobToUpdate,
+        ...updateAppData
+    }
 }
 
 export {
@@ -328,5 +322,7 @@ export {
     addApplicantsInArray,
     checkApplicantsExist,
     createApplicants,
+    updateApplied,
+    deleteApplied,
     applicantsFormData
 }

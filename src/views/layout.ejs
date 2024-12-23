@@ -45,7 +45,7 @@
                             <button id="applicant-btn" <%= user ? 'disabled' : '' %>>Applicants <i class="fa-solid fa-caret-down"></i></button>
                             <div id="dropdown-cnt-app" class="dropdown-content">
                                 <div><a id="login-app" href="/login/applicants">Login</a></div>
-                                <div><a id="applied-jobs" href='/appliedJobs/<%= app.id %>'>Applied Jobs</a></div>
+                                <div><a id="applied-jobs" href='#' onclick="errorAppliedBtn('<%= app.id %>')">Applied Jobs</a></div>
                             </div>
                         <% } %>
                     </li>

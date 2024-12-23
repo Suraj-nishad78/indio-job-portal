@@ -34,6 +34,8 @@ import {
     loginApplicants,
     getApplicantAccount,
     applicantsAppliedJob,
+    updateAppliedJob,
+    deleteAppliedJob,
     logoutApplicant,
     jobApplyApplicants,
 
@@ -44,7 +46,7 @@ import {
 } from "./src/controller/controller.js"
 
 import { upload } from "./src/middleware/multer.js"
-import {sendApplicantMail} from "./src/middleware/nodeMailer.js"
+import {sendApplicantMail, updateApplicantMail} from "./src/middleware/nodeMailer.js"
 import{lastLoggedInAt} from "./src/middleware/cookies.js"
 
 /*----import function are here-----*/
@@ -79,6 +81,7 @@ import {
     recruitersArrayRoute,
     jobsArrayRoute
 } from "./src/controller/controller.js"
+import { console } from "inspector"
 
 
 app.get("/applicantsArray", applicantsArrayRoute)
@@ -114,6 +117,9 @@ app.post('/login/applicant', getApplicantAccount)
 app.get('/logout/applicants', logoutApplicant)
 app.get('/appliedJobs/:appId', applicantsAppliedJob)
 app.post('/jobs/:jobId/applicants/:appId', upload.single('resume'), sendApplicantMail, jobApplyApplicants)
+app.put('/applicants/:appId/index/:index', upload.single('resume'), updateApplicantMail , updateAppliedJob)
+app.delete('/jobs/:jobId/applicants/:appId/index/:index', deleteAppliedJob)
+
 
 app.get("/user-not-found", userNotFound)
 app.get('*', page404)
