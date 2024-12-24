@@ -1,14 +1,9 @@
 
-/*---------- Recruiters Array---------*/
-let recruiterId = 1
-const recruiters = []
+import { 
+    applicantsFunc,
+    updatedApplicantsArray
+    } from './applicants.model.js';
 
-/*----------Applicants Array---------*/
-let applicantsId = 1
-let applicants = []
-
-
-/*---------- Jobs Array---------*/
 let jobId = 4
 let jobsArray = [
     {
@@ -55,33 +50,8 @@ let jobsArray = [
     }
 ]
 
-
-const applicantsFunc = () =>{
-    return applicants;
-}
-
-const recruitersFunc = () =>{
-    return recruiters;
-}
 const jobsArrayFunc = () =>{
     return jobsArray;
-}
-
-const createRecruiterModel = (user) =>{
-    const {name, email, password} = user
-    const id = recruiterId;
-    let newRecruiter = { id, name, email, password}
-    const getRecruiters = recruitersFunc()
-    getRecruiters.push(newRecruiter)
-    recruiterId++
-}
-
-
-const findRecruiterModel = (user) => {
-    const { email, password} = user;
-    const getRecruiters = recruitersFunc()
-    const findRecruiter = getRecruiters.filter(recruiter=>recruiter.email == email && recruiter.password == password);
-    return findRecruiter;
 }
 
 const createJob = (job, creater) => {
@@ -97,7 +67,6 @@ const createJob = (job, creater) => {
     } = job;
     
     /*------Applied Date-----*/
-
     const applyBy = dateFormat(appliedDate)
 
     /*------Posted Date & Time-----*/
@@ -127,6 +96,7 @@ const createJob = (job, creater) => {
 function dateFormat(appliedDate){
     const AppDate = appliedDate;
     const dateApply = new Date(AppDate)
+    const currentDate = new Date()
     const applyBy = dateApply.toLocaleDateString('en-GB', { 
         day: 'numeric',
         month: 'short',
@@ -208,10 +178,13 @@ const updateJobWithId = (jobId, jobData) =>{
 const deletejobWithId = (jobId) => {
     const id = Number(jobId);
     jobsArray = jobsArray.filter(job=>job.id !== id)
-    applicants = applicants.map(app=>({
+    const updatedApplicants = applicantsFunc().map(app=>({
         ...app,
         appliedJob:app.appliedJob.filter(job=>job.jobId !== id)
     }))
+
+    updatedApplicantsArray(updatedApplicants)
+
     return jobsArray;
 }
 
@@ -221,108 +194,12 @@ const findJobText = (search) =>{
     return job;
 }
 
-const addApplicantsInArray = (app) =>{
-    const appId = applicantsId;
-    const applicant = {id:appId,...app}
-    applicantsId++
-    return applicants.push(applicant)   
-}
-
-const checkApplicantsExist = (app) =>{
-    const { email, password} = app;
-    const findApp = applicants.filter(applicant=>applicant.email == email && applicant.password == password);
-    return findApp;
-}
-
-
-const createApplicants = (app, jobCreaterId, applicantsId) =>{
-    const appId = Number(applicantsId);
-    const jobId = Number(jobCreaterId);
-
-    const allJobs = jobsArrayFunc();
-    const getJob = allJobs.filter(job =>job.id == jobId);
-    const job = getJob[0];
-    const companyName = job.companyName;
-    job.applicants.push({appId:appId})
-
-    const appDetail = applicants.find(applicant=>applicant.id === appId)
-    appDetail.appliedJob.push({appId, jobId, companyName,...app})
-
-}
-
-const applicantsFormData = (jobId) => {
-    const { id } = jobId;
-    const allJobs = jobsArrayFunc();
-    const jobApplicants = allJobs.find(job => job.id == id)?.applicants || [];
-    const allApplicants = applicantsFunc();
-
-    return jobApplicants.flatMap(jobApp => 
-        allApplicants
-            .filter(app => app.id === jobApp.appId)
-            .flatMap(app => app.appliedJob.filter(applied => applied.jobId == id))
-    );
-};
-
-const deleteApplied = (jId, aId, index) =>{
-    const jobId = Number(jId);
-    const appId = Number(aId);
-    const appliedIndex = Number(index);
-
-    // Erase Applicant Id from job Array
-    let jobs = jobsArrayFunc();
-    const jobIndex = jobs.findIndex(job => job.id === jobId);
-    
-    if (jobIndex === -1) {
-        console.error("Job not found!");
-        return;
-    }
-    
-    jobs[jobIndex].applicants = jobs[jobIndex].applicants.filter(applicant => applicant.appId !== appId);    
-    
-    // Erase Applied job from Applicants Array
-    let applicantsArray = applicantsFunc();
-    const applicantIndex = applicantsArray.findIndex(applicant => applicant.id === appId);
-    
-    if (applicantIndex === -1) {
-        console.error('Applicant not found!');
-        return;
-    }
-    
-    const appliedJobs = applicantsArray[applicantIndex].appliedJob;
-    appliedJobs.splice(index, 1);
-}
-
-const updateApplied = (updateAppData, appId, index)=>{
-    
-    const applicants = applicantsFunc();
-    
-    const applicant = applicants.find(app=>app.id === appId)
-
-    const jobToUpdate = applicant.appliedJob[index]
-
-    applicant.appliedJob[index] = {
-        ...jobToUpdate,
-        ...updateAppData
-    }
-}
-
 export {
-    createRecruiterModel,
-    findRecruiterModel,
-    applicantsFunc,
-    recruitersFunc,
-    jobsArrayFunc,
     createJob,
     getJobFromId,
     updateJobWithId,
     deletejobWithId,
-
     findJobText,
 
-    addApplicantsInArray,
-    checkApplicantsExist,
-    createApplicants,
-    updateApplied,
-    deleteApplied,
-    applicantsFormData
+    jobsArrayFunc
 }

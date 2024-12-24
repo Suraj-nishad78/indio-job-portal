@@ -1,35 +1,40 @@
 import express from "express"
 import expressEjsLayout from "express-ejs-layouts"
 import session from "express-session"
-// import nodeMailer from "nodemailer"
 import dotenv from "dotenv"
 import {join} from "path"
 import ejs from "ejs"
 import bodyParser from "body-parser"
-import axios from "axios"
 import cookieParser from "cookie-parser"
-
-
 dotenv.config()
+
 /*----import function are here-----*/
 import {
     jobsHome,
-
-    loginPage,
-    createRecruiter,
-    loginRecruiter,
-    logoutRecruiter,
-
     jobListingPage,
     jobDetails,
-    jobApplicants,
     newJobPage,
     createNewJob,
     updateJobPage,
     updateJob,
     deleteJob,
-    applicantsForm,
+    findJob,
+    jobsArrayRoute,
+    userNotFound,
+    page404
+} from "./src/controller/jobs.controller.js"
 
+import {
+    loginPage,
+    createRecruiter,
+    loginRecruiter,
+    logoutRecruiter,
+    applicantsForm,
+    jobApplicants,
+    recruitersArrayRoute
+} from './src/controller/recruiter.controller.js'
+
+import {
     applicantsAccount,
     loginApplicants,
     getApplicantAccount,
@@ -38,16 +43,13 @@ import {
     deleteAppliedJob,
     logoutApplicant,
     jobApplyApplicants,
-
-    findJob,
-
-    userNotFound,
-    page404
-} from "./src/controller/controller.js"
+    applicantsArrayRoute
+} from './src/controller/applicants.controller.js'
 
 import { upload } from "./src/middleware/multer.js"
 import {sendApplicantMail, updateApplicantMail} from "./src/middleware/nodeMailer.js"
 import{lastLoggedInAt} from "./src/middleware/cookies.js"
+import { auth } from "./src/middleware/auth.middleware.js"
 
 /*----import function are here-----*/
 
@@ -70,57 +72,49 @@ app.use(session({
     secret: 'recruiter',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+    cookie: { maxAge:  15 * 60 * 1000 }
 }));
 
-/*-------Middleware End---------*/
 
-/*---------App-Arrays, Jobs-Arrays, Recrui-Arrays--------*/
-import {
-    applicantsArrayRoute,
-    recruitersArrayRoute,
-    jobsArrayRoute
-} from "./src/controller/controller.js"
-import { console } from "inspector"
+/*------- Job Routes---------*/
 
-
-app.get("/applicantsArray", applicantsArrayRoute)
-app.get("/recruitersArray", recruitersArrayRoute)
-app.get("/jobsArray", jobsArrayRoute)
-
-/*---------App-Arrays, Jobs-Arrays, Recrui-Arrays-End--------*/
-
-app.get("/", jobsHome)
-app.get("/home", jobsHome)
-
-app.get("/login", loginPage)
-app.post("/login", lastLoggedInAt, loginRecruiter)//
-app.get("/logout", logoutRecruiter)//
-app.post("/recruiter", lastLoggedInAt, createRecruiter)
-
+app.get("/", auth, jobsHome)
+app.get("/home", auth, jobsHome)
 app.get("/jobs", jobListingPage)
 app.get("/job/:id", jobDetails)
-
-app.get("/post-job", newJobPage)
-app.get("/update-job-page/:id", updateJobPage)
-app.get('/jobs/applicants', jobApplicants)
+app.get("/post-job", auth, newJobPage)
+app.get("/update-job-page/:id", auth, updateJobPage)
+app.get('/jobs/applicants', auth, jobApplicants)
 app.post("/post-job", createNewJob)
 app.post('/job-search', findJob)
 app.put("/update-job/:id", updateJob)
 app.delete("/job/:id", deleteJob)
-app.get('/jobs/:id/applicants', applicantsForm)
 
+
+/*------- Applicant Routes---------*/
 
 app.get('/login/applicants', loginApplicants)
 app.post('/Signup/applicants', applicantsAccount)
 app.post('/login/applicant', getApplicantAccount)
 app.get('/logout/applicants', logoutApplicant)
-app.get('/appliedJobs/:appId', applicantsAppliedJob)
+app.get('/appliedJobs/:appId', auth, applicantsAppliedJob)
 app.post('/jobs/:jobId/applicants/:appId', upload.single('resume'), sendApplicantMail, jobApplyApplicants)
 app.put('/applicants/:appId/index/:index', upload.single('resume'), updateApplicantMail , updateAppliedJob)
 app.delete('/jobs/:jobId/applicants/:appId/index/:index', deleteAppliedJob)
 
+/*------- Recruiter Routes---------*/
 
+app.get("/login", loginPage)
+app.post("/recruiter", lastLoggedInAt, createRecruiter)
+app.post("/login", lastLoggedInAt, loginRecruiter)
+app.get("/logout", logoutRecruiter)
+app.get('/jobs/:id/applicants', auth, applicantsForm)
+
+/*------- Other Routes---------*/
+
+app.get("/applicantsArray", applicantsArrayRoute)
+app.get("/recruitersArray", recruitersArrayRoute)
+app.get("/jobsArray", jobsArrayRoute)
 app.get("/user-not-found", userNotFound)
 app.get('*', page404)
 

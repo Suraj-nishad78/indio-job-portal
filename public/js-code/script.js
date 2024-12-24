@@ -198,6 +198,15 @@ function data(jobJSON) {
     let selectElement = document.getElementById('post-job-skills');
     let jobSkills = Array.from(selectElement.selectedOptions).map(option => option.value);
 
+    const applyDate = new Date(jobAppliedDate)
+    const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0)
+
+    if(!(applyDate >= currentDate)){
+        alert(`Invalid date ${jobAppliedDate}. Please enter a valid date`)
+        return;
+    }
+
     let updateJobDeta = {
         jobCategory,
         jobDesignation,
@@ -258,11 +267,24 @@ async function deletedjob(jobId) {
     const jobLocation = document.getElementById('post-job-location').value; 
     const jobSalary = document.getElementById('post-job-salary').value;
     const positions = document.getElementById('total-positions').value;
-    if(company && jobLocation && jobSalary && positions){
-        alert('Job posted Successfully')
+    const jobApplieDate = document.getElementById('job-applied-date').value
+
+    const selectedDate = new Date(jobApplieDate)
+    const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0)
+
+    if(selectedDate >= currentDate){
+        if(company && jobLocation && jobSalary && positions && jobApplieDate){
+            alert('Job posted Successfully')
+        } else {
+            alert('Please enter the correct details')
+            return
+        }
     } else {
-        alert('Please enter the correct details')
+        alert (`Invalid date ${jobApplieDate}. Please Enter a valid date`)
+        return
     }
+    
  }
 
 /*--------Delete a Applied job function----------*/
@@ -370,7 +392,9 @@ if(updateData){
     })
 }
 
- 
+
+
+
 
 
 
