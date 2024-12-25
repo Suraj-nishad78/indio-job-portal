@@ -1,13 +1,14 @@
 import multer from "multer"
+import path from "path";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/uploads/')
   },
   filename: function (req, file, cb) {
-    // cb(null, resumeId++ +'-'+file.originalname)
     const {email} = req.body;
-    cb(null, email+'-'+file.originalname)
+    // cb(null, email+path.extname(file.originalname))
+    cb(null, `${email}${path.extname(file.originalname)}`)
   }
   
 })

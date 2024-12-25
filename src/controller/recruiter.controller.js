@@ -4,6 +4,7 @@
 import {
     createRecruiterModel,
     findRecruiterModel,
+    userEmailExist,
     recruitersFunc
 } from '../model/recruiter.model.js'
 
@@ -23,6 +24,11 @@ const recruitersArrayRoute = (req, res) =>{
 }
 
 const createRecruiter = (req, res) =>{
+    const emailExist = userEmailExist(req.body)
+    if(emailExist && emailExist.length){ 
+        res.redirect("/home")
+        return
+    }
     createRecruiterModel(req.body)
     res.redirect("/login")
 }
@@ -30,16 +36,20 @@ const createRecruiter = (req, res) =>{
 const loginPage = (req, res)=>{
     let user = req.session.user || '';
     let app = req.session.App || '';
-    res.render("login", {user, app})
+    let err = ''
+    res.render("login", {user, app, err})
 }
 
 const loginRecruiter = (req, res) =>{
+    let user = req.session.user || '';
+    let app = req.session.App || '';
     const recruiter = findRecruiterModel(req.body)
     if(recruiter && recruiter.length){
         req.session.user = recruiter[0];
         res.redirect("/jobs")
     }else{
-        res.redirect("/user-not-found")
+        let err = 'Authentication failed invalid credential !'
+        res.render('login', {user, app, err })
     }
 }
 

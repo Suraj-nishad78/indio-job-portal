@@ -1,11 +1,14 @@
 //Neccessary imports are here
 
+import path from "path"
+
 import {
     applicantsFunc,
     addApplicantsInArray,
     checkApplicantsExist,
     createApplicants,
     updateApplied,
+    checkEmailExist,
     deleteApplied
 } from "../model/applicants.model.js"
 
@@ -19,17 +22,25 @@ const applicantsArrayRoute = (req, res) =>{
 const loginApplicants = (req, res)=>{
     let user = req.session.App || '';
     let app = req.session.App || '';
-    res.render("loginApp", {user, app})
+    let err = ''
+    res.render("loginApp", {user, app, err})
 }
 
 const applicantsAccount = (req, res)=>{
     const {name, email, password} = req.body;
+    const emailExist = checkEmailExist(req.body)
+    if(emailExist && emailExist.length){
+        res.redirect("/home")
+        return
+    }
     const app = {name, email, password, appliedJob:[]}
     const applicants = addApplicantsInArray(app)
     res.redirect('/login/applicants')
 }
 
 const getApplicantAccount = (req, res)=>{
+    
+
     const {email, password} = req.body;
     const app = {email, password}
     const applicant =  checkApplicantsExist(app)
@@ -37,7 +48,10 @@ const getApplicantAccount = (req, res)=>{
         req.session.App = applicant[0];
         res.redirect("/home")
     }else{
-        res.redirect("/user-not-found")
+        let user = req.session.App || '';
+        let app = req.session.App || '';
+        let err = 'Authentication failed invalid credential !'
+        res.render('loginApp', {user, app, err })
     }
 }
 
@@ -55,7 +69,7 @@ const jobApplyApplicants = (req, res) =>{
     const {name, email, number} = req.body;
     const { file } = req;
     const{jobId, appId} = req.params;
-    const applicant = { name, email, number, resume: `/uploads/${email}-${file.originalname}`};
+    const applicant = { name, email, number, resume: `/uploads/${email}${path.extname(file.originalname)}`};
     createApplicants(applicant, jobId, appId)
     res.redirect('/jobs')
 }
@@ -77,7 +91,7 @@ const updateAppliedJob = (req, res) =>{
     const {name, email, number} = req.body;
     const { file } = req;
     const {appId, index} = req.params;
-    const updatedData = { name, email, number, resume: `/uploads/${email}-${file.originalname}`};
+    const updatedData = { name, email, number, resume: `/uploads/${email}${path.extname(file.originalname)}`};
     updateApplied(updatedData, Number(appId), Number(index))
     res.redirect(`/appliedJobs/${appId}`)
 }

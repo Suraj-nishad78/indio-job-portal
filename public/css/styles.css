@@ -344,6 +344,12 @@ main{
     text-align: center;
     margin-bottom: 20px;
 }
+#log-in-page h4{
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 10px;
+    color:  red;
+}
 #log-in-page label{
     border: 1px solid rgba(0, 0, 0, 0.4);
     padding: 7px 15px;
@@ -752,17 +758,11 @@ main{
     color: rgba(0, 0, 0, 0.7);
 }
 #update-resume input{
-    /* margin-bottom: 15px;
-    height: 15px; */
-    /* padding: 4px 25px 5px 2px; */
     margin-top: 3px;
     position: relative;
     top: -.8px;
     left: -5px;
     font-size: 1.15em;
-    /* border: 1px solid rgba(0, 0, 0, 0.3); */
-    /* border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px; */
 }
 
 #Close-changes-form, #Close-update-form{
@@ -784,13 +784,13 @@ main{
     cursor: pointer;
     /* color: white; */
 }
-#Close-changes-form button:last-child{
+/* #Close-changes-form button:last-child{
     background-color: var(--light-bg-color);
 }
 #Close-changes-form button:last-child:hover{
     background-color: var(--bg-color);
     cursor: pointer;
-}
+} */
 /*----------Post-Job-----*/
 #post-job{
     color: black;

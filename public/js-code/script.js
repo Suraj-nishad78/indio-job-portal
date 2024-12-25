@@ -139,16 +139,18 @@ let closeApplyForm = document.querySelectorAll('.close-apply-form');
             return alert('Please login as Applicant!')
         }
 
-        ApplyForm.addEventListener('click', () => {
             applyFormData.classList.remove('hidden');
-        });
-    
+            
+    }
+
+    if(closeApplyForm && applyFormData){
         closeApplyForm.forEach(closeForm => {
             closeForm.addEventListener('click', () => {
                 applyFormData.classList.add('hidden'); 
             });
         });
     }
+
 
 
 
@@ -392,10 +394,80 @@ if(updateData){
     })
 }
 
+// For signUp Alert
 
 
+let recruiterData;
+
+async function getRecruiterData () {
+    try {
+
+        const response = await fetch('/recruitersArray', {method:'GET'})
+        recruiterData = await response.json()
+        return recruiterData;
+
+    } catch (err){
+        console.log('Error: ', err)
+    }
+}
+
+getRecruiterData()
+
+function recruiterSignup(){
+
+    const recruiterName = document.getElementById('recruiter-name').value;
+    const recruiterEmail = document.getElementById('recruiter-email').value;
+    const recruiterPassword = document.getElementById('recruiter-password').value;
+
+    const findRecruiter = recruiterData.filter(recruiter=>recruiter.email == recruiterEmail);
+
+    if(findRecruiter && findRecruiter.length){
+        alert(`This email ${recruiterEmail} is already exist. Please sign up with diffrent email`)
+        return
+    }
+
+    if(recruiterName.trim() && recruiterEmail.trim() && recruiterPassword.trim()){
+        alert('You are signup successfully for Recruiter !')
+        return
+    }
+
+}
 
 
+let applicantsData;
+
+async function getApplicantsData () {
+    try {
+
+        const response = await fetch('/applicantsArray', {method:'GET'})
+        applicantsData = await response.json()
+        return applicantsData;
+
+    } catch (err){
+        console.log('Error: ', err)
+    }
+}
+
+getApplicantsData()
+
+function accountSignup(){
+
+    const appName = document.getElementById('app-name').value;
+    const appEmail = document.getElementById('app-email').value;
+    const appPassword = document.getElementById('app-password').value;
+
+    
+    const findApplicant = applicantsData.filter(applicant=>applicant.email == appEmail);
+    
+    if(findApplicant && findApplicant.length){
+        alert(`This email ${appEmail} is already exist. Please sign up with diffrent email`)
+        return
+    }
+    
+    if(appName.trim() && appEmail.trim() && appPassword.trim()){
+        alert('You are signup successfully for Applicant !')
+    }
+}
 
 
 

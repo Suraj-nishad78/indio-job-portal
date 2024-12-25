@@ -24,8 +24,16 @@ const findRecruiterModel = (user) => {
     return findRecruiter;
 }
 
+const userEmailExist = (user) => {
+    const { email } = user;
+    const getRecruiters = recruitersFunc()
+    const findRecruiter = getRecruiters.filter(recruiter=>recruiter.email == email);
+    return findRecruiter;
+}
+
 export {
     createRecruiterModel,
     findRecruiterModel,
+    userEmailExist,
     recruitersFunc
 }

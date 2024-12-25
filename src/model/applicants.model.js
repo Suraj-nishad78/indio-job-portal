@@ -25,6 +25,11 @@ const checkApplicantsExist = (app) =>{
     return findApp;
 }
 
+const checkEmailExist = (app) =>{
+    const { email } = app;
+    const findApp = applicants.filter(applicant=>applicant.email == email);
+    return findApp;
+}
 
 const createApplicants = (app, jobCreaterId, applicantsId) =>{
     const appId = Number(applicantsId);
@@ -109,5 +114,6 @@ export {
     deleteApplied,
     applicantsFormData,
     applicantsFunc,
+    checkEmailExist,
     updatedApplicantsArray
 }
