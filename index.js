@@ -76,9 +76,12 @@ app.use(session({
 }));
 
 
+app.get("/", (req, res)=>{
+    res.redirect('/home')
+})
+
 /*------- Job Routes---------*/
 
-app.get("/", auth, jobsHome)
 app.get("/home", auth, jobsHome)
 app.get("/jobs", jobListingPage)
 app.get("/job/:id", jobDetails)

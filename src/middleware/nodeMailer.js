@@ -1,6 +1,14 @@
 import nodeMailer from "nodemailer"
+import { appIdAlreadyExist } from '../model/applicants.model.js'
 
 const sendApplicantMail = async (req, res, next) =>{
+    const{jobId, appId} = req.params;
+    const appIdExist = appIdAlreadyExist(jobId, appId)
+    
+    if(appIdExist && appIdExist.length){
+        next()
+        return;
+    }
     const {name, email} = req.body;
     let transporter = nodeMailer.createTransport({
         service:'gmail',

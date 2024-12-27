@@ -31,6 +31,7 @@ const checkEmailExist = (app) =>{
     return findApp;
 }
 
+
 const createApplicants = (app, jobCreaterId, applicantsId) =>{
     const appId = Number(applicantsId);
     const jobId = Number(jobCreaterId);
@@ -44,6 +45,13 @@ const createApplicants = (app, jobCreaterId, applicantsId) =>{
     const appDetail = applicants.find(applicant=>applicant.id === appId)
     appDetail.appliedJob.push({appId, jobId, companyName,...app})
 
+}
+
+const appIdAlreadyExist = (jobId, appId) =>{
+    const getJob = jobsArrayFunc().filter(job =>job.id == jobId);
+    const jobApp = getJob[0].applicants;
+    const appIdExist = jobApp.filter(job=>job.appId == appId)
+    return appIdExist;
 }
 
 const applicantsFormData = (jobId) => {
@@ -115,5 +123,6 @@ export {
     applicantsFormData,
     applicantsFunc,
     checkEmailExist,
-    updatedApplicantsArray
+    updatedApplicantsArray,
+    appIdAlreadyExist
 }

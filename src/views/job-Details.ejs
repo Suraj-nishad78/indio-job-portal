@@ -73,19 +73,21 @@
     <div id="apply-form-input" >
         <p>apply in less than 1 minute</p>
         <form action="/jobs/<%= job.id %>/applicants/<%= app.id %>" method="post" enctype="multipart/form-data">
-            <label for="apply-name">Name</label>
-            <input id="apply-name" type="name" name="name" placeholder="Enter your name" required style="width: 13em;">
-            <br>
-            <label for="apply-email">Email</label>
-            <input id="apply-email" type="email" name="email" placeholder="Enter your email" required style="width: 13em;">
-            <br>
-            <label for="apply-number">Contact</label>
-            <input id="apply-number" type="number" name="number" placeholder="Enter your Number" required style="width: 12em;">
-            <br>
-            <label for="apply-resume">Resume</label>
-            <input id="apply-resume" type="file" name="resume" required style="width: 12em;">
-            <br>
-            <button type="submit">Submit</button>
+            <div id="apply-inputs">
+                <label for="apply-name">Name</label>
+                <input id="apply-name" type="name" name="name" placeholder="Enter your name" required style="width: 13em;">
+                <br>
+                <label for="apply-email">Email</label>
+                <input id="apply-email" type="email" name="email" placeholder="Enter your email" required style="width: 13em;">
+                <br>
+                <label for="apply-number">Contact</label>
+                <input id="apply-number" type="number" name="number" placeholder="Enter your Number" required style="width: 12em;">
+            </div>
+            <div id="apply-resume">
+                <label>Resume</label>
+                <input type="file" name="resume" required style="width: 12em;">
+            </div>
+            <button type="submit" onclick="applyFormAppId('<%= app.id %>', '<%= job.id %>')">Submit</button>
         </form>
     </div>
     <hr>

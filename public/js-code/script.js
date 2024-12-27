@@ -415,19 +415,21 @@ getRecruiterData()
 
 function recruiterSignup(){
 
+    
     const recruiterName = document.getElementById('recruiter-name').value;
     const recruiterEmail = document.getElementById('recruiter-email').value;
     const recruiterPassword = document.getElementById('recruiter-password').value;
 
     const findRecruiter = recruiterData.filter(recruiter=>recruiter.email == recruiterEmail);
 
+
     if(findRecruiter && findRecruiter.length){
-        alert(`This email ${recruiterEmail} is already exist. Please sign up with diffrent email`)
+        alert(`The email address is already registered. Please sign up with a different email`)
         return
     }
 
     if(recruiterName.trim() && recruiterEmail.trim() && recruiterPassword.trim()){
-        alert('You are signup successfully for Recruiter !')
+        alert('Congratulations! You have successfully signed up as a Recruiter.')
         return
     }
 
@@ -460,16 +462,49 @@ function accountSignup(){
     const findApplicant = applicantsData.filter(applicant=>applicant.email == appEmail);
     
     if(findApplicant && findApplicant.length){
-        alert(`This email ${appEmail} is already exist. Please sign up with diffrent email`)
+        alert(`The email address is already registered. Please sign up with a different email`)
         return
     }
     
     if(appName.trim() && appEmail.trim() && appPassword.trim()){
-        alert('You are signup successfully for Applicant !')
+        alert('Congratulations! You have successfully signed up as a Applicant.')
     }
 }
 
+let jobsData;
 
+async function getJobsData () {
+    try {
+
+        const response = await fetch('/jobsArray', {method:'GET'})
+        jobsData = await response.json()
+        return jobsData;
+
+    } catch (err){
+        console.log('Error: ', err)
+    }
+}
+
+getJobsData()
+
+function applyFormAppId(appId, jobId){
+    const getJob = jobsData.filter(job =>job.id == jobId);
+    const jobApp = getJob[0].applicants;
+    const appIdExist = jobApp.filter(job=>job.appId == appId)
+    if(appIdExist && appIdExist.length){
+        alert("You have already applied for this job. Please use a different account if you wish to submit another application.")
+        return;
+    }
+
+    const applyName = document.getElementById('apply-name').value;
+    const applyEmail = document.getElementById('apply-email').value;
+    const applyNumber = document.getElementById('apply-number').value;
+
+    if(applyName.trim() && applyEmail.trim() && applyNumber.trim()){
+        alert('Congratulations! Your job application has been submitted successfully.')
+    }
+
+}
 
 
 

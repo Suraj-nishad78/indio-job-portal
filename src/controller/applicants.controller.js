@@ -9,7 +9,8 @@ import {
     createApplicants,
     updateApplied,
     checkEmailExist,
-    deleteApplied
+    deleteApplied,
+    appIdAlreadyExist
 } from "../model/applicants.model.js"
 
 //Neccessary function are here
@@ -65,10 +66,17 @@ const logoutApplicant = (req, res)=>{
       });
 }
 
+
 const jobApplyApplicants = (req, res) =>{
     const {name, email, number} = req.body;
     const { file } = req;
     const{jobId, appId} = req.params;
+    const appIdExist = appIdAlreadyExist(jobId, appId)
+    
+    if(appIdExist && appIdExist.length){
+        res.redirect(`/job/${jobId}`)
+        return;
+    }
     const applicant = { name, email, number, resume: `/uploads/${email}${path.extname(file.originalname)}`};
     createApplicants(applicant, jobId, appId)
     res.redirect('/jobs')
